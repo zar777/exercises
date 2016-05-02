@@ -47,11 +47,11 @@ class RemoveDuplicates(LinkedList):
 if __name__ == '__main__':
 
     duplicates = RemoveDuplicates()
-    print duplicates.append(25)
     print duplicates.append(30)
     print duplicates.append(25)
-    print duplicates.append(1)
-    print duplicates.append(7)
+    print duplicates.append(25)
+    print duplicates.append(25)
+    print duplicates.append(25)
     print duplicates.append(30)
     print len(duplicates)
     print duplicates.remove()
