@@ -32,6 +32,6 @@ if __name__ == '__main__':
     print ord('c')
     print ord('a')
     print ord('c')-ord('a')
-    print Permutation().detect_permutation(string_one, string_two)
+    print permutation.detect_permutation(string_one, string_two)
 
 
