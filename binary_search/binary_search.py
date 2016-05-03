@@ -9,12 +9,12 @@ class BinarySearch(object):
         if first > last:
             return -1
         mid = (first + last) / 2
-        if key == mid:
-            return self.array[key]
-        if key > mid:
-            self.binary_search_algorithm(mid+1, last, key)
+        if key == self.array[mid]:
+            return mid
+        if key > self.array[mid]:
+            return self.binary_search_algorithm(mid+1, last, key)
         else:
-            self.binary_search_algorithm(first, mid - 1, key)
+            return self.binary_search_algorithm(first, mid - 1, key)
 
 if __name__ == '__main__':
     array = range(0, 20)
@@ -22,4 +22,5 @@ if __name__ == '__main__':
     binary = BinarySearch(array)
     print binary.array
     print len(binary.array)
-    print binary.binary_search_algorithm(0, len(binary.array), 8)
+    ciao = binary.binary_search_algorithm(0, len(binary.array), 8)
+    print ciao
