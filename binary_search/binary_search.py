@@ -17,10 +17,10 @@ class BinarySearch(object):
             return self.binary_search_algorithm(first, mid - 1, key)
 
 if __name__ == '__main__':
-    array = range(0, 20)
+    array = [20, 30, 40, 50]
     print array
     binary = BinarySearch(array)
     print binary.array
     print len(binary.array)
-    ciao = binary.binary_search_algorithm(0, len(binary.array), 8)
+    ciao = binary.binary_search_algorithm(0, len(binary.array), 30)
     print ciao
