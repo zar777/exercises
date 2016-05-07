@@ -24,7 +24,7 @@ class MergeSort(object):
             array_two.append(self.array[element])
         i = 0
         while array_one != [] and array_two != []:
-            if array_one[i] < array_two[i]:
+            if array_one[0] < array_two[0]:
                 self.array[i] = array_one.pop(0)
             else:
                 self.array[i] = array_two.pop(0)
