@@ -1,13 +1,15 @@
 class SortAnagrams(object):
-    def __init__(self, sorted_array):
-        self.array = sorted_array
+    def __init__(self, unsorted_array):
+        self.array = unsorted_array
 
-    def order_anagrams(self):
-        pass
+    def order_anagrams(self, string):
+
+        return ''.join(sorted(string))
 
 
 if __name__ == '__main__':
-    array = ["rito", "tori", "trio", "irto", "orti"]
+    array = ["rito", "tori", "zxy", "trio", "irto", "orti", "xab",  "xyz", "abx", "xba", "yzx"]
+    sort_anagrams = SortAnagrams(array)
     print array
-    array.sort()
+    sort_anagrams.array.sort(key=sort_anagrams.order_anagrams)
     print array
