@@ -3,8 +3,7 @@ class SortAnagrams(object):
         self.array = unsorted_array
 
     def order_anagrams(self, string):
-
-        return ''.join(sorted(string))
+        return sorted(string)
 
 
 if __name__ == '__main__':
