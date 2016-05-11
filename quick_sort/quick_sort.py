@@ -14,7 +14,7 @@ class QuickSort(object):
             self.quick_sort_algorithm(pivot_index+1, right)
 
     def partition(self, left, right):
-        """this method is created to order and quick an unsorted array, through two buffers"""
+        """this method is created to order an unsorted array, through two buffers"""
         pivot_index = left
         left += 1
         if left is not None and right is not None:
