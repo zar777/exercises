@@ -20,28 +20,12 @@ class Graph(object):
         """add an edge between two vertices"""
         pass
 
-    def degree(self, vertex):
-        """number of vertices adjacent of a given vertex"""
-        adj_element = 0
-        vertex_degree = 0
-        while adj_element < len(self.adj_list[vertex]):
-            adj_element += 1
-            vertex_degree += 1
-        return vertex_degree
-
     def max_degree(self):
-        """vertex which have a maximum number of edge represents a max degree of graph"""
-        max = 0
-        vertex = 0
-        while vertex < self.vertices:
-            if self.degree(vertex) > max:
-                max = self.degree(vertex)
-            vertex += 1
-        return max
+       pass
 
     def average_degree(self):
         """average degree of the graph"""
-        pass
+        return 2 * self.edge / self.vertices
 
     def numbers_of_self_loop(self):
         count_loop = 0
@@ -53,7 +37,15 @@ class Graph(object):
         return count_loop
 
     def __str__(self):
-        pass
+        """da rifare"""
+        vertex = 0
+        adj_element = 0
+        while vertex < self.vertices:
+            while adj_element < len(self.adj_list[vertex]):
+                print '%s' % vertex + ' ----> ' + '%s' % self.adj_list[vertex][adj_element]
+                adj_element += 1
+            vertex += 1
+            adj_element = 0
 
     def dfs(self, vertex):
         """depth first search algorithm"""

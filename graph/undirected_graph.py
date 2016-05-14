@@ -16,19 +16,24 @@ class UndirectedGraph(Graph):
                     self.adj_list[w].append(v)
                 self.edge += 1
 
-    def average_degree(self):
-        """average degree of the graph"""
-        return 2 * self.edge / self.vertices
-
-    def __str__(self):
-        vertex = 0
+    def degree(self, vertex):
+        """number of vertices adjacent of a given vertex"""
         adj_element = 0
+        vertex_degree = 0
+        while adj_element < len(self.adj_list[vertex]):
+            adj_element += 1
+            vertex_degree += 1
+        return vertex_degree
+
+    def max_degree(self):
+        """vertex which have a maximum number of edge represents a max degree of graph"""
+        max = 0
+        vertex = 0
         while vertex < self.vertices:
-            while adj_element < len(self.adj_list[vertex]):
-                print '%s' % vertex + ' ---- ' + '%s' % self.adj_list[vertex][adj_element]
-                adj_element += 1
+            if self.degree(vertex) > max:
+                max = self.degree(vertex)
             vertex += 1
-            adj_element = 0
+        return max
 
 if __name__ == '__main__':
     graph = UndirectedGraph(7)
