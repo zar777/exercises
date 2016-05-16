@@ -50,27 +50,26 @@ if __name__ == '__main__':
     print graph.vertices
     print graph.adj_list
     print len(graph.adj_list)
-    graph.add_edge(2, 9)
+    #  graph = DirectedGraph(7)
+    graph.add_edge(0, 6)
+    graph.add_edge(0, 2)
     graph.add_edge(0, 1)
     graph.add_edge(0, 5)
-    graph.add_edge(6, 0)
     graph.add_edge(6, 4)
-    graph.add_edge(2, 0)
-    graph.add_edge(2, 3)
-    graph.add_edge(3, 2)
-    graph.add_edge(3, 5)
-    graph.add_edge(4, 2)
+    graph.add_edge(4, 5)
     graph.add_edge(4, 3)
-    graph.add_edge(5, 4)
+    graph.add_edge(5, 3)
     graph.__str__()
-    print graph.adj_list
-    print graph.out_degree(3)
-    print graph.in_degree(3)
-    print graph.adj_list[3]
-    print graph.adj_list
-    print graph.max_degree()
-    print graph.average_degree()
-    print graph.numbers_of_self_loop()
+    graph.dfs(6)
+    print graph.edge_to
+    # print graph.adj_list
+    # print graph.out_degree(3)
+    # print graph.in_degree(3)
+    # print graph.adj_list[3]
+    # print graph.adj_list
+    # print graph.max_degree()
+    # print graph.average_degree()
+    # print graph.numbers_of_self_loop()
     # array = [2, 4, 6]
     # array.append(3)
     # print array

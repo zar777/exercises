@@ -37,7 +37,6 @@ class Graph(object):
         return count_loop
 
     def __str__(self):
-        """da rifare"""
         vertex = 0
         adj_element = 0
         while vertex < self.vertices:
