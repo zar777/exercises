@@ -37,7 +37,7 @@ class QuickSort(object):
 
 if __name__ == '__main__':
     array = random.sample(range(1, 100), 10)
-    # array = [95, 63, 31, 13, 60]
+    # array = [91, 68, 31, 13, 60]
     print array
     quick = QuickSort(array)
     print quick.array
