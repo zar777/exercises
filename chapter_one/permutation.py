@@ -1,5 +1,6 @@
+"""Exercises 1.3 : given two strings, write a method to decide if one is a permutation of the other"""
 class Permutation(object):
-    """Exercises 1.3 : given two strings, write a method to decide if one is a permutation of the other"""
+
     def __init__(self):
         self.alphabet = [0] * 26
 

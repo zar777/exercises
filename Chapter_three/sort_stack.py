@@ -1,3 +1,6 @@
+"""Write a program to sort a stack in ascending order. You should not make any assump-
+tions about how the stack is implemented. The following are the only functions that
+should be used to write this program: push | pop | peek | isEmpty. exercises 3.6"""
 class SortStack(object):
     def __init__(self, list):
         self.list = list
@@ -27,9 +30,8 @@ class SortStack(object):
                 sort.push(first)
             else:
                 pass
-            sort.
 
-
+"""Failed"""
 if __name__ == '__main__':
     a = []
     stack = SortStack(a)

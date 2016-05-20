@@ -1,3 +1,4 @@
+"""Implement a MyQueue class which implements a queue using two stacks.  Exercises 3.5"""
 class MyQueue(object):
     """this class is created to represent a queue, given two stacks"""
     def __init__(self, stack_one, stack_two):

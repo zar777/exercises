@@ -1,3 +1,6 @@
+"""Implement an algorithm to find the nth to last element of a singly linked list.
+Exercises 2.2"""
+
 from linked_list.linked_list import LinkedList, Node
 
 
@@ -32,4 +35,4 @@ if __name__ == '__main__':
     finder.append(" ")
     finder.append("riccardo")
     print finder
-    print finder.find_kth(6)
+    print finder.find_kth(0)

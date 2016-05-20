@@ -1,3 +1,4 @@
+"""Write a method to replace all spaces in a string with %20 Exercises 1.5"""
 class ReplaceSpaces(object):
     def __init__(self, string):
         self.string = string

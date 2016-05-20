@@ -1,3 +1,5 @@
+"""Implement an algorithm to determine if a string has all unique characters. What if you
+can not use additional data structures? Exercises 1.1 """
 class UniqueCharacters(object):
     """this class represents an empty dictionary dictionary"""
     def __init__(self):

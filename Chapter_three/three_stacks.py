@@ -1,3 +1,5 @@
+"""Describe how you could use a single array to implement three stacks. Exercises 3.1
+    I WRONG BECAUSE I USE A LIST AND NOT AN ARRAY"""
 class ThreeStacks(object):
     """this class is created to represent an empty array which there are only two divisors used by
      delimited the three stacks"""

@@ -1,3 +1,5 @@
+"""Given a directed graph, design an algorithm to find out whether there is a route between two nodes"""
+
 from graph.directed_graph import DirectedGraph
 
 def find_route(graph, v, w):

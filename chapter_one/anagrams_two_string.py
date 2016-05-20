@@ -1,4 +1,4 @@
-import re
+"""Write a method to decide if two strings are anagrams or not. Exercises 1.4"""
 
 class AnagramsSwoString(object):
     def __init__(self):
@@ -6,6 +6,7 @@ class AnagramsSwoString(object):
 
     def verify_anagrams(self, string_one, string_two):
         pass
+"""Failed"""
 
 if __name__ == '__main__':
     string_one = "cacca"

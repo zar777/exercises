@@ -1,3 +1,6 @@
+"""Write a method to sort an array of strings so that all the anagrams are next to each
+other. Exercises 9.2"""
+
 class SortAnagrams(object):
     def __init__(self, unsorted_array):
         self.array = unsorted_array
