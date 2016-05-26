@@ -5,10 +5,9 @@ from linked_list.linked_list import LinkedList
 def reverse_with_list(linked_list):
     reverse_linked = []
     current = linked_list.head
-    while current.next is not None:
+    while current is not None:
         reverse_linked.insert(0, current.item)
         current = current.next
-    reverse_linked.insert(0, current.item)
     return reverse_linked
 
 
@@ -29,5 +28,5 @@ if __name__ == '__main__':
     linked_list.append(15)
     linked_list.append(2)
     print linked_list
-    #print reverse_with_list(linked_list)
-    print reverse_with_variables(linked_list)
+    print reverse_with_list(linked_list)
+    # print reverse_with_variables(linked_list)
