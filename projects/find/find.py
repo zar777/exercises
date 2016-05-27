@@ -28,4 +28,3 @@ if __name__ == '__main__':
     parser.add_argument('-name', type=str, default=None)
     args = parser.parse_args()
     find(args.directory, args.name)
-    # find("/home/gianluca/projects/exercises/", "tree")
