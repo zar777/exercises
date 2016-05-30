@@ -49,6 +49,4 @@ def occurrence_ages(array):
 if __name__ == '__main__':
     array = [8, 8, 8, 9, 9, 11, 15, 16, 16, 16]
     print occurrence_ages_n_complexity(array)
-    # print binary_search_algorithm_left(array, 0, len(array) - 1, 16)
-    # print binary_search_algorithm_right(array, 0, len(array)-1, 16)
     print occurrence_ages(array)
