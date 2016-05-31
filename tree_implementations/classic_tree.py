@@ -15,6 +15,9 @@ class ClassicTree(Tree):
         if node.right is not None:
             self.in_order_visit(node.right)
 
+    def add_node(self):
+        
+
 
 class Node(object):
     def __init__(self, value, left, right):
