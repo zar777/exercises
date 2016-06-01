@@ -14,7 +14,7 @@ def mock_islink(arg):
 
 def mock_isdir(arg):
     _, filename = os.path.split(arg)
-    if filename in {'test', 'subtest_dir', 'test_older', 'test_folder', 'aaa', 'telephone'}:
+    if filename in {'test', 'subtest_dir', 'test_older', 'test_folder', 'aaa', 'telephone', 'try'}:
         return True
     return False
 
@@ -127,8 +127,8 @@ class FindTest(unittest.TestCase):
             with patch('os.path.isdir', side_effect=mock_isdir):
                 with patch('os.path.islink', side_effect=mock_islink):
                     with patch('os.path.exists', return_value=True):
-                        with patch('os.path.realpath', return_value='/aaa'):
-                            find('/home/user/test_folder', 'a', out=self.out)
+                        with patch('os.path.realpath', return_value='/try'):
+                            find('/home/user/test_folder', 't', out=self.out)
         golden_out = ('/home/user/test_folder\n/home/user/test_folder/a.txt\n'
                       '/home/user/test_folder/f.csv\n/home/user/test_folder/test\n'
                       '/home/user/test_folder/test/subtest_dir\n/home/user/test_folder/test/subtest_dir/cc\n'
