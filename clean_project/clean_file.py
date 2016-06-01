@@ -13,4 +13,5 @@ def clean_up(src_path, dest_path):
 
 
 if __name__ == '__main__':
+    # Example used to  clean up the example file
     clean_up('/home/gianluca/Desktop/news', '/home/gianluca/Desktop/write_file')
