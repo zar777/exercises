@@ -6,17 +6,14 @@ class ClassicTree(Tree):
         super(ClassicTree, self).__init__()
         self.root = root_node
 
-    def in_order_visit(self, node):
-        if node is None:
+    def in_order_visit(self, tree, result):
+        if tree.value is None:
             pass
-        if node.left is not None:
-            self.in_order_visit(node.left)
-        print node.value
-        if node.right is not None:
-            self.in_order_visit(node.right)
-
-    def add_node(self):
-        
+        if tree.left is not None:
+            self.in_order_visit(tree.left, result)
+        result.append(tree.value)
+        if tree.right is not None:
+            self.in_order_visit(tree.right, result)
 
 
 class Node(object):
