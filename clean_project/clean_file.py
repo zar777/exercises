@@ -8,8 +8,6 @@ def clean_up(src_path, dest_path):
                 table = string.maketrans(line, line)
                 new_line = line.translate(table, string.punctuation)
                 dest_file.write(new_line)
-            source_file.close()
-            dest_file.close()
 
 
 if __name__ == '__main__':
