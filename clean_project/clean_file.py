@@ -1,21 +1,36 @@
-import unicodedata
-import sys
-
-table = dict.fromkeys(i for i in xrange(sys.maxunicode)
-                      if unicodedata.category(unichr(i)).startswith('P'))
-
-
-def remove_punctuations(line):
-    a = line.decode('utf-8').translate(table)
-    return a
+import argparse
+import codecs
+import re
 
 
 def clean_up(src_path, dest_path):
-    with open(src_path) as source_file:
-        with open(dest_path, "w") as dest_file:
+    """
+    This method is created to open a file, clean up and write it in another new file
+    :param src_path: source path
+    :param dest_path: destination path of new file
+    """
+    with codecs.open(src_path, "r", "utf-8") as source_file:
+        with codecs.open(dest_path, "w", "utf-8") as dest_file:
             for line in source_file:
-                dest_file.write(remove_punctuations(line).encode('utf-8'))
+                new_line = sanitize(line)
+                dest_file.write(new_line)
+
+
+def sanitize(line):
+    """
+    this method is created to support the clean up operation deleting all the punctuation except characters: - ' _ @ .
+    :param line: string to clean
+    :return: new line cleaned
+    """
+    return re.sub(ur"[^.\w@\d'\s-]+", '', line)
 
 
 if __name__ == '__main__':
-    clean_up('/home/gianluca/Desktop/news', '/home/gianluca/Desktop/write_file')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('input')
+    parser.add_argument('output')
+    args = parser.parse_args()
+    try:
+        clean_up(args.input, args.output)
+    except IOError as e:
+        print "File or path not found: %s" % e
