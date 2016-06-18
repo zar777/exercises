@@ -1,6 +1,8 @@
+"""this file is used for writing all support methods
+"""
 import sys
 import unicodedata
-"""this file is used for writing all support methods """
+
 
 # Dictionary of keys that identify punctuation
 TABLE = dict.fromkeys(i for i in xrange(sys.maxunicode)
