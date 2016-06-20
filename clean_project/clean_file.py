@@ -1,5 +1,5 @@
 """
-Analyze and clean up files about all useless punctuation
+Analyze and clean up files of all useless punctuation
 """
 import argparse
 import codecs
@@ -24,7 +24,7 @@ def sanitize(line):
     :param line: string to clean
     :return: new line cleaned
     """
-    return re.sub(ur"[^.\w@\d'\s-]+", '', line).encode("utf-8")
+    return re.sub(ur"[^\w@\d'\s-]+", '', line).encode("utf-8")
 
 
 if __name__ == '__main__':
