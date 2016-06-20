@@ -1,6 +1,7 @@
 """
 Analyze and clean up files of all useless punctuation
 """
+# -*- coding: utf-8 -*-
 import argparse
 import codecs
 import re
@@ -16,6 +17,7 @@ def clean_up(src_path, dest_path):
         with codecs.open(dest_path, 'w', 'utf-8') as dest_file:
             for line in source_file:
                 dest_file.write(sanitize(line))
+    return dest_file.name
 
 
 def sanitize(line):
@@ -24,7 +26,7 @@ def sanitize(line):
     :param line: string to clean
     :return: new line cleaned
     """
-    return re.sub(ur"[^\w@\d'\s-]+", '', line).encode("utf-8")
+    return re.sub(ur"([^\w\d\s]+|\b\w{1}\b)", ' ', line).encode("utf-8")
 
 
 if __name__ == '__main__':
