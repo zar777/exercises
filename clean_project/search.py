@@ -1,57 +1,40 @@
+# -*- coding: utf-8 -*-
 """
 Search a word in a file and return all the occurrence specified the line numbers
 """
 import argparse
-import codecs
 import json
-import tempfile
-
-from collections import defaultdict
-from clean_file import clean_up
 
 BOLD = '\033[1m'
 END = '\033[0m'
 
 
-def construct_dictionary(file_path):
-    """
-    Construct the dictionary, given a file
-    :param file_path: Path's file for constructing the dictionary
-    :return: Dictionary created
-    """
-    sanitize_file = clean_up(file_path, tempfile.NamedTemporaryFile().name)
-    with codecs.open(sanitize_file, 'r', 'utf-8') as source_file:
-        memory = defaultdict(list)
-        for i, line in enumerate(source_file, 1):
-            for word in line.split():
-                memory[word.lower()].append(i)
-    return memory
-
-
-def search(search_word, memory):
+def search(search_word, json_path):
     """
     Print all the occurrence of a given word
     :param search_word: Word given to search
-    :param memory: Dictionary of all the occurrence(line numbers) for all words(keys) in file
-    :return: No matches if the word doesn't exist in file or a list of all the line number where the word occurs
+    :param json_path: Indexing file
     """
-    if search_word in memory:
-        for occurrence in memory.get(search_word):
-            print BOLD + search_word + END + " in lines --> " + str(occurrence)
-    else:
-        return "No matches"
-    return memory.get(search_word)
+    with open(json_path) as json_file:
+        list_of_dict = json.load(json_file)
+        count_match = 0
+        for file_dict in list_of_dict:
+            if search_word in file_dict:
+                count_match += 1
+                for occurrence in file_dict.get(search_word):
+                    file_name = file_dict.get('file_name')[0].split('/')
+                    print 'In File ' + file_name[len(file_name)-1] + ' the word ' + BOLD + search_word + END \
+                          + " is in lines --> " + str(occurrence)
+        if count_match == 0:
+            print "No matches"
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('word')
-    parser.add_argument('file_path')
+    parser.add_argument('json_path')
     args = parser.parse_args()
     try:
-        memory = construct_dictionary(args.file_path)
-        with open('/home/gianluca/Desktop/data.json', 'w') as fp:
-            json.dump(memory, fp, sort_keys=True, indent=4)
-        search(args.word, memory)
+        search(args.word, args.json_path)
     except IOError as e:
         print 'File or path not found: %s' % e

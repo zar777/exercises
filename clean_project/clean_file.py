@@ -1,7 +1,7 @@
+# -*- coding: utf-8 -*-
 """
 Analyze and clean up files of all useless punctuation
 """
-# -*- coding: utf-8 -*-
 import argparse
 import codecs
 import re
