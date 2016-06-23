@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Search a word in a file and return all the occurrence specified the line numbers
 """
@@ -17,20 +16,27 @@ def search(search_word, json_path):
     :return: List of files and numbers of file when search_word occurrence
     """
     with open(json_path) as json_file:
-        list_of_dict = json.load(json_file)
-        count_match = 0
+        index = json.load(json_file)
         result_list = []
-        for file_dict in list_of_dict:
-            if search_word in file_dict:
-                count_match += 1
-                print "The word " + BOLD + search_word + END + " is contains in the following file/lines:"
-                for occurrence in file_dict.get(search_word):
-                    file_name = file_dict.get('file_name')[0].split('/')
-                    print "--> " + file_name[len(file_name)-1] + ': ' + str(occurrence)
-                    result_list.append("--> " + file_name[len(file_name)-1] + ': ' + str(occurrence))
-        if count_match == 0:
-            print "No matches"
+        if search_word in index:
+            result_list = index[search_word].items()
     return result_list
+
+
+def print_output(search_word, results):
+    """
+    Print output of search
+    :param search_word: Word given to search
+    :param results: list of tuples(filename, occurrence in a given file)
+    """
+    print "The word {bold} {word} {end} is contained in the following file/lines:" \
+        .format(bold=BOLD, word=search_word, end=END)
+    if results:
+        for filename, occurrence in results:
+            print "--> %s: %s" % (filename, str(occurrence).strip("[]"))
+    else:
+        print "No matches"
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -38,6 +44,8 @@ if __name__ == '__main__':
     parser.add_argument('json_path')
     args = parser.parse_args()
     try:
-        search(args.word, args.json_path)
+        results = search(args.word, args.json_path)
+        print results
+        print_output(args.word, results)
     except IOError as e:
         print 'File or path not found: %s' % e

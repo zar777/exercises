@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Analyze and clean up files of all useless punctuation
 """
@@ -26,7 +25,8 @@ def sanitize(line):
     :param line: string to clean
     :return: new line cleaned
     """
-    return re.sub(ur"([^\w\d\s]+|\b\w{1}\b)", ' ', line).encode("utf-8")
+    # I deleted all punctuation and string of one character to simplify the search and find the right result
+    return re.sub(ur"([^\w\d\s]+|\b\w{1}\b|_)", ' ', line).encode("utf-8")
 
 
 if __name__ == '__main__':

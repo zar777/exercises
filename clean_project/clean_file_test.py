@@ -7,6 +7,22 @@ from clean_file import clean_up, sanitize
 
 class CleanFileTest(unittest.TestCase):
 
+    def test_punctuation_double_quotes_character(self):
+        string_test = u'hi e a“”how are "you". a'
+        self.assertEqual('hi     how are  you   ', sanitize(string_test))
+
+    def test_punctuation_hyphen_character(self):
+        string_test = u"hi e‐‑‒–a how are--- you. a"
+        self.assertEqual('hi     how are  you   ', sanitize(string_test))
+
+    def test_punctuation_underscore_character(self):
+        string_test = u"hi e＿a how_are_you.＿a"
+        self.assertEqual('hi     how are you  ', sanitize(string_test))
+
+    def test_punctuation_apostrophe_character(self):
+        string_test = u"hi e a‘’how' are' you. a"
+        self.assertEqual('hi     how  are  you   ', sanitize(string_test))
+
     def test_punctuation_single_character(self):
         string_test = u"hi e a how are you. a"
         self.assertEqual("hi     how are you   ", sanitize(string_test))
@@ -33,7 +49,7 @@ class CleanFileTest(unittest.TestCase):
 
     def test_punctuation_hyphen_sentence(self):
         string_test = u"gianluca_parente@gmail com!!!"
-        self.assertEqual("gianluca_parente gmail com ", sanitize(string_test))
+        self.assertEqual("gianluca parente gmail com ", sanitize(string_test))
 
     def test_all_punctuation_in_empty_file(self):
         with tempfile.NamedTemporaryFile() as src_file:
