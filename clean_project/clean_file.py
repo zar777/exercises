@@ -16,7 +16,7 @@ def clean_up(src_path, dest_path):
         with codecs.open(dest_path, 'w', 'utf-8') as dest_file:
             for line in source_file:
                 dest_file.write(sanitize(line))
-    return dest_file.name
+    return dest_path
 
 
 def sanitize(line):
@@ -25,7 +25,8 @@ def sanitize(line):
     :param line: string to clean
     :return: new line cleaned
     """
-    # I deleted all punctuation and string of one character to simplify the search and find the right result
+    # This regex deletes all the punctuation and the strings of length 1, in order to simplify
+    #  the search and find the right result.
     return re.sub(ur"([^\w\d\s]+|\b\w{1}\b|_)", ' ', line).encode("utf-8")
 
 

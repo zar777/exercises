@@ -10,7 +10,7 @@ END = '\033[0m'
 
 def search(search_word, json_path):
     """
-    Print all the occurrence of a given word
+    Search if a given word is in bucket of files
     :param search_word: Word given to search
     :param json_path: Indexing file
     :return: List of files and numbers of file when search_word occurrence

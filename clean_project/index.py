@@ -21,8 +21,7 @@ def index(config_path, index_path):
     with open(config_path) as config_file:
         data = yaml.load(config_file)
     if data is not None:
-        key_index = lambda: defaultdict(list)
-        index_words = defaultdict(key_index)
+        index_words = defaultdict(lambda: defaultdict(list))
         for file_dirty in data['files_path']:
             with codecs.open(file_dirty.get('file'), 'r', 'utf-8') as source_file:
                 # Used 1-based indexing for showing line numbers in output representation
