@@ -26,7 +26,7 @@ def sanitize(line):
     :return: new line cleaned
     """
     # This regex deletes all the punctuation and the strings of length 1, in order to simplify
-    #  the search and find the right result.
+    # the search and find the right result.
     return re.sub(ur"([^\w\d\s]+|\b\w{1}\b|_)", ' ', line).encode("utf-8")
 
 

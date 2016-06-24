@@ -11,8 +11,7 @@ END = '\033[0m'
 class Search(object):
     def __init__(self, json_path):
         with open(json_path) as json_file:
-            index = json.load(json_file)
-        self.index = index
+            self.index = json.load(json_file)
 
     def search(self, search_word):
         """
@@ -20,10 +19,8 @@ class Search(object):
         :param search_word: Word given to search
         :return: List of files and numbers of file when search_word occurrence
         """
-        result_list = []
         if search_word in self.index:
-            result_list = self.index[search_word].items()
-        return result_list
+            return self.index.get(search_word, {}).items()
 
     def print_output(self, search_word, results):
         """
@@ -46,8 +43,8 @@ if __name__ == '__main__':
     parser.add_argument('json_path')
     args = parser.parse_args()
     try:
-        search_class = Search(args.json_path)
-        results = search_class.search(args.word)
-        search_class.print_output(args.word, results)
+        search_object = Search(args.json_path)
+        results = search_object.search(args.word)
+        search_object.print_output(args.word, results)
     except IOError as e:
         print 'File or path not found: %s' % e
