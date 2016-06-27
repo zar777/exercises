@@ -11,10 +11,11 @@ from collections import defaultdict
 from ConfigParser import SafeConfigParser
 
 
-def load_config_file():
+def load_config_file(connect_path):
     config = SafeConfigParser()
-    config.read('test_data/config.ini')
-    list_keys = {'database': config.get('db_connection', 'database'), 'user': config.get('db_connection', 'user'),
+    config.read(connect_path)
+    list_keys = {'database': config.get('db_connection', 'database'),
+                 'user': config.get('db_connection', 'user'),
                  'password': config.get('db_connection', 'password')}
     return list_keys
 
@@ -41,14 +42,14 @@ def index(config_path):
     return index_words
 
 
-def build_index(index_words):
+def build_index(index_words, connect_path):
     """
     Insert the index in a specific database for store all data
     :param index_words: Object which contains the built index
     """
     connection = None
     cursor = None
-    db_keys = load_config_file()
+    db_keys = load_config_file(connect_path)
     try:
         connection = psycopg2.connect(database=db_keys.get('database'),
                                       user=db_keys.get('user'),
@@ -77,9 +78,10 @@ def build_index(index_words):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('config_path')
+    parser.add_argument('connect_path')
     args = parser.parse_args()
     try:
         index = index(args.config_path)
-        build_index(index)
+        build_index(index, args.connect_path)
     except IOError as e:
         print 'File or path not found: %s' % e

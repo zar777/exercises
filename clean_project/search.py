@@ -1,5 +1,5 @@
 """
-Search a word in a file and return all the occurrence specified the line numbers
+Search a word in a file and return all the occurrences specified the line numbers
 """
 import argparse
 import psycopg2
@@ -11,12 +11,12 @@ END = '\033[0m'
 
 
 class Search(object):
-    def __init__(self):
+    def __init__(self, connect_path):
         self.connection = None
         try:
-            self.connection = psycopg2.connect(database=load_config_file().get('database'),
-                                               user=load_config_file().get('user'),
-                                               password=load_config_file().get('password'))
+            self.connection = psycopg2.connect(database=load_config_file(connect_path).get('database'),
+                                               user=load_config_file(connect_path).get('user'),
+                                               password=load_config_file(connect_path).get('password'))
             self.cursor = self.connection.cursor()
         except psycopg2.DatabaseError, e:
             print 'Error %s' % e
@@ -25,11 +25,10 @@ class Search(object):
         """
         Search if a given word is in bucket of files
         :param search_word: Word given to search
-        :return: List of files and numbers of file when search_word occurrence
+        :return: List of tuples composed by the given word, file and all the occurrences found
         """
         result_search = []
         try:
-
             self.cursor.execute("SELECT * FROM index WHERE word = '%s';" % search_word)
             result_search = self.cursor.fetchall()
         except psycopg2.DataError, e:
@@ -54,9 +53,10 @@ class Search(object):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('word')
+    parser.add_argument('connect_path')
     args = parser.parse_args()
     try:
-        results = Search().search(args.word)
-        Search().print_output(args.word, results)
+        results = Search(args.connect_path).search(args.word)
+        Search(args.connect_path).print_output(args.word, results)
     except IOError as e:
         print 'File or path not found: %s' % e

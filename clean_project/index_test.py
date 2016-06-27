@@ -1,8 +1,7 @@
+import collections
+import index
 import psycopg2
 import unittest
-
-import index
-import collections
 
 
 def convert(data):
@@ -23,7 +22,6 @@ class IndexTest(unittest.TestCase):
 
     def test_full_dictionary(self):
         index_object = index.index('test_data/config_file.yaml')
-        index.build_index(index_object)
         result_converted = convert(index_object)
         self.assertEqual({'the': {'test_data/full_file_dirty.txt': [1]},
                           'bush': {'test_data/full_file_dirty.txt': [1]},
@@ -35,8 +33,8 @@ class IndexTest(unittest.TestCase):
 
     def test_index_database(self):
         index_object = index.index('test_data/config_file.yaml')
-        index.build_index(index_object)
-        db_keys = index.load_config_file()
+        index.build_index(index_object, 'test_data/config.ini')
+        db_keys = index.load_config_file('test_data/config.ini')
         connection = psycopg2.connect(database=db_keys.get('database'),
                                       user=db_keys.get('user'),
                                       password=db_keys.get('password'))
