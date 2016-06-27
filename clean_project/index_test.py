@@ -1,5 +1,4 @@
 import psycopg2
-import tempfile
 import unittest
 
 import index
@@ -37,9 +36,12 @@ class IndexTest(unittest.TestCase):
     def test_index_database(self):
         index_object = index.index('test_data/config_file.yaml')
         index.build_index(index_object)
-        connection = psycopg2.connect(database='index_db', user='gianluca', password='password')
+        db_keys = index.load_config_file()
+        connection = psycopg2.connect(database=db_keys.get('database'),
+                                      user=db_keys.get('user'),
+                                      password=db_keys.get('password'))
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM index order by 1;")
+        cursor.execute("SELECT * FROM index order by 1,2;")
         table_content = cursor.fetchall()
         self.assertEqual([('as', 'test_data/full_file_dirty.txt', [1, 2]),
                           ('bulgaria', 'home/test/news.txt', [22, 99, 44]),

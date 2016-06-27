@@ -3,11 +3,20 @@ Create a JSON file used to indexing all words in a config_file.yaml
 """
 import argparse
 import codecs
+import clean_file
 import psycopg2
 import yaml
 
 from collections import defaultdict
-import clean_file
+from ConfigParser import SafeConfigParser
+
+
+def load_config_file():
+    config = SafeConfigParser()
+    config.read('test_data/config.ini')
+    list_keys = {'database': config.get('db_connection', 'database'), 'user': config.get('db_connection', 'user'),
+                 'password': config.get('db_connection', 'password')}
+    return list_keys
 
 
 def index(config_path):
@@ -38,11 +47,16 @@ def build_index(index_words):
     :param index_words: Object which contains the built index
     """
     connection = None
+    cursor = None
+    db_keys = load_config_file()
     try:
-        connection = psycopg2.connect(database='index_db', user='gianluca', password='password')
+        connection = psycopg2.connect(database=db_keys.get('database'),
+                                      user=db_keys.get('user'),
+                                      password=db_keys.get('password'))
         cursor = connection.cursor()
+        # Update index table only if word and file match. Else do nothing
         query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
-
+        # Insert only if word and file don't exist in index table. Else do nothing
         query_insert = ("INSERT INTO index (word, file, occurrences)"
                         "SELECT %s, %s, %s"
                         "WHERE NOT EXISTS (SELECT 1 FROM index WHERE word=%s AND file=%s);")
@@ -53,16 +67,11 @@ def build_index(index_words):
                 data_insert = (word, file_path, index_words[word].get(file_path), word, file_path)
                 cursor.execute(query_insert, data_insert)
                 connection.commit()
-
-    except psycopg2.DatabaseError, e:
-
-        if connection:
-            connection.rollback()
-        print 'Error %s' % e
-
+    except psycopg2.DataError, e:
+        print 'Data error detected: %s' % e
     finally:
-
         if connection:
+            cursor.close()
             connection.close()
 
 if __name__ == '__main__':
