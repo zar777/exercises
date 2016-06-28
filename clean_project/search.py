@@ -12,14 +12,7 @@ END = '\033[0m'
 
 class Search(object):
     def __init__(self, connect_path):
-        self.connection = None
-        try:
-            self.connection = psycopg2.connect(database=load_config_file(connect_path).get('database'),
-                                               user=load_config_file(connect_path).get('user'),
-                                               password=load_config_file(connect_path).get('password'))
-            self.cursor = self.connection.cursor()
-        except psycopg2.DatabaseError, e:
-            print 'Error %s' % e
+        self.connect_path = connect_path
 
     def search(self, search_word):
         """
@@ -28,11 +21,21 @@ class Search(object):
         :return: List of tuples composed by the given word, file and all the occurrences found
         """
         result_search = []
+        connection = None
+        cursor = None
         try:
-            self.cursor.execute("SELECT * FROM index WHERE word = '%s';" % search_word)
-            result_search = self.cursor.fetchall()
+            connection = psycopg2.connect(database=load_config_file(self.connect_path).get('database'),
+                                          user=load_config_file(self.connect_path).get('user'),
+                                          password=load_config_file(self.connect_path).get('password'))
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM index WHERE word = '%s';" % search_word)
+            result_search = cursor.fetchall()
         except psycopg2.DataError, e:
             print 'Data error detected: %s' % e
+        finally:
+            if connection:
+                cursor.close()
+                connection.close()
         return result_search
 
     def print_output(self, search_word, results):
