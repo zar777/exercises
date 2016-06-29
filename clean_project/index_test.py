@@ -33,8 +33,8 @@ class IndexTest(unittest.TestCase):
 
     def test_index_database(self):
         index_object = index.index('test_data/config_file.yaml')
-        index.build_index(index_object, 'test_data/config.ini')
-        db_keys = index.load_config_file('test_data/config.ini')
+        index.build_index(index_object, 'test_data/config.cfg')
+        db_keys = index.load_config_file('test_data/config.cfg')
         connection = psycopg2.connect(database=db_keys.get('database'),
                                       user=db_keys.get('user'),
                                       password=db_keys.get('password'))

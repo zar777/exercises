@@ -1,18 +1,19 @@
 """
 Search a word in a file and return all the occurrence specified the line numbers
 """
+import argparse
 import cmd
-
-import search
+import search_engine
 
 BOLD = '\033[1m'
 END = '\033[0m'
 
 
-class SearchCli(cmd.Cmd):
+class Search(cmd.Cmd):
 
-    def __init__(self):
+    def __init__(self, connect_path):
         cmd.Cmd.__init__(self)
+        self.connect_path = connect_path
 
     def do_search(self, search_word):
         """
@@ -20,11 +21,31 @@ class SearchCli(cmd.Cmd):
         :param search_word: Word given to search
         """
         try:
-            results = search.search(search_word)
-            search.print_output(search_word, results)
+            results = search_engine.SearchEngine(self.connect_path).search(search_word)
+            self.print_output(search_word, results)
         except IOError as e:
             print 'File or path not found: %s' % e
 
+    def print_output(self, search_word, results):
+        """
+        Print output of search
+        :param search_word: Word given to search
+        :param results: list of tuples(filename, occurrence in a given file)
+        """
+        if results:
+            print "The word {bold} {word} {end} is contained in the following file/lines:" \
+                .format(bold=BOLD, word=search_word, end=END)
+            for word, filename, occurrence in results:
+                print "--> %s: %s" % (filename, str(occurrence).strip("[]"))
+        else:
+            print "No matches"
 
 if __name__ == '__main__':
-    SearchCli().cmdloop()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('connect_path')
+    args = parser.parse_args()
+    try:
+
+        Search(args.connect_path).cmdloop()
+    except IOError as e:
+        print 'File or path not found: %s' % e
