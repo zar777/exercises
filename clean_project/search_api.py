@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 def config_app(search_object):
     app.config['search'] = search_object
+    return app
 
 
 @app.route('/search/<string:search_word>', methods=['GET'])
