@@ -1,5 +1,5 @@
 """
-Search a word in a file and return all the occurrence specified the line numbers
+SearchCli a word in a file and return all the occurrence specified the line numbers
 """
 import argparse
 import cmd
@@ -24,7 +24,7 @@ def print_output(search_word, results):
         print "No matches"
 
 
-class Search(cmd.Cmd):
+class SearchCli(cmd.Cmd):
 
     def __init__(self, engine):
         cmd.Cmd.__init__(self)
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     engine = search_engine.SearchEngine(args.db_config)
     if args.cli:
-        Search(engine).cmdloop()
+        SearchCli(engine).cmdloop()
     else:
         results = engine.search(args.word)
         print_output(args.word, results)
