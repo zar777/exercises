@@ -31,12 +31,7 @@ def load_config_file(connect_path):
 def index(config_path):
     """
     Build a dictionary, given a configuration files
-    :param config_path: Configu# Update index table only if word and file match. Else do nothing
-        query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
-        # Insert only if word and file don't exist in index table. Else do nothing
-        query_insert = ("INSERT INTO index (word, file, occurrences)"
-                        "SELECT %s, %s, %s"
-                        "WHERE NOT EXISTS (SELECT 1 FROM index WHERE word=%s AND file=%s);")ration path which contains a list of files that will be cleaned
+    :param config_path: Configuration path which contains a list of files that will be cleaned
     :return: Index object
     """
     with open(config_path) as config_file:
