@@ -42,8 +42,8 @@ class IndexTest(unittest.TestCase):
         cursor.execute("SELECT * FROM index order by 1,2;")
         table_content = cursor.fetchall()
         self.assertEqual([('as', 'test_data/full_file_dirty.txt', [1, 2]),
-                          ('bulgaria', 'home/test/news.txt', [22, 99, 44]),
                           ('bulgaria', 'test_data/full_file_dirty.txt', [1, 3]),
+                          ('bulgaria', 'try/try.txt', [22, 84, 99]),
                           ('bush', 'test_data/full_file_dirty.txt', [1]),
                           ('the', 'test_data/full_file_dirty.txt', [1])], table_content)
 

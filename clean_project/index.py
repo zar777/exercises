@@ -10,6 +10,14 @@ import yaml
 from collections import defaultdict
 from ConfigParser import SafeConfigParser
 
+# Update index table only if word and file match. Else do nothing
+query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
+# Insert word and file which exist in index table.
+query_insert = ("INSERT INTO index (word, file, occurrences)"
+                "VALUES (%s, %s, %s);")
+# Select to verify if a key (word, file) exists
+query_select = "SELECT 1 FROM index WHERE word=%s AND file=%s"
+
 
 def load_config_file(connect_path):
     config = SafeConfigParser()
@@ -47,33 +55,25 @@ def build_index(index_words, connect_path):
     Insert the index in a specific database for store all data
     :param index_words: Object which contains the built index
     """
-    connection = None
-    cursor = None
     db_keys = load_config_file(connect_path)
+    connection = psycopg2.connect(database=db_keys.get('database'),
+                                  user=db_keys.get('user'),
+                                  password=db_keys.get('password'))
     try:
-        connection = psycopg2.connect(database=db_keys.get('database'),
-                                      user=db_keys.get('user'),
-                                      password=db_keys.get('password'))
-        cursor = connection.cursor()
-        # Update index table only if word and file match. Else do nothing
-        query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
-        # Insert only if word and file don't exist in index table. Else do nothing
-        query_insert = ("INSERT INTO index (word, file, occurrences)"
-                        "SELECT %s, %s, %s"
-                        "WHERE NOT EXISTS (SELECT 1 FROM index WHERE word=%s AND file=%s);")
-        for word in index_words:
-            for file_path in index_words[word]:
-                data_update = (index_words[word].get(file_path), word, file_path)
-                cursor.execute(query_update, data_update)
-                data_insert = (word, file_path, index_words[word].get(file_path), word, file_path)
-                cursor.execute(query_insert, data_insert)
-                connection.commit()
-    except psycopg2.DataError, e:
-        print 'Data error detected: %s' % e
+        with connection:
+            with connection.cursor() as cursor:
+                for word in index_words:
+                    for file_path in index_words[word]:
+                        data_select = (word, file_path)
+                        cursor.execute(query_select, data_select)
+                        if cursor.fetchall():
+                            data_update = (index_words[word].get(file_path), word, file_path)
+                            cursor.execute(query_update, data_update)
+                        else:
+                            data_insert = (word, file_path, index_words[word].get(file_path))
+                            cursor.execute(query_insert, data_insert)
     finally:
-        if connection:
-            cursor.close()
-            connection.close()
+        connection.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

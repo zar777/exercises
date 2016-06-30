@@ -15,21 +15,17 @@ class SearchEngine(object):
         :return: List of tuples composed by the given word, file and all the occurrences found
         """
         result_search = []
-        connection = None
-        cursor = None
+        database = load_config_file(self.connect_path).get('database')
+        user = load_config_file(self.connect_path).get('user')
+        password = load_config_file(self.connect_path).get('password')
+        connection = psycopg2.connect(database=database, user=user, password=password)
         try:
-            connection = psycopg2.connect(database=load_config_file(self.connect_path).get('database'),
-                                          user=load_config_file(self.connect_path).get('user'),
-                                          password=load_config_file(self.connect_path).get('password'))
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM index WHERE word = '%s';" % search_word)
-            result_search = cursor.fetchall()
-        except psycopg2.DataError, e:
-            print 'Data error detected: %s' % e
+            with connection:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT * FROM index WHERE word = '%s';" % search_word)
+                    result_search = cursor.fetchall()
         finally:
-            if connection:
-                cursor.close()
-                connection.close()
+            connection.close()
         return result_search
 
 if __name__ == '__main__':
