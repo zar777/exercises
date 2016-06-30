@@ -11,12 +11,12 @@ from collections import defaultdict
 from ConfigParser import SafeConfigParser
 
 # Update index table only if word and file match. Else do nothing
-query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
+QUERY_UPDATE = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
 # Insert word and file which exist in index table.
-query_insert = ("INSERT INTO index (word, file, occurrences)"
+QUERY_INSERT = ("INSERT INTO index (word, file, occurrences)"
                 "VALUES (%s, %s, %s);")
 # Select to verify if a key (word, file) exists
-query_select = "SELECT 1 FROM index WHERE word=%s AND file=%s"
+QUERY_SELECT = "SELECT 1 FROM index WHERE word=%s AND file=%s"
 
 
 def load_config_file(connect_path):
@@ -65,13 +65,13 @@ def build_index(index_words, connect_path):
                 for word in index_words:
                     for file_path in index_words[word]:
                         data_select = (word, file_path)
-                        cursor.execute(query_select, data_select)
+                        cursor.execute(QUERY_SELECT, data_select)
                         if cursor.fetchall():
                             data_update = (index_words[word].get(file_path), word, file_path)
-                            cursor.execute(query_update, data_update)
+                            cursor.execute(QUERY_UPDATE, data_update)
                         else:
                             data_insert = (word, file_path, index_words[word].get(file_path))
-                            cursor.execute(query_insert, data_insert)
+                            cursor.execute(QUERY_INSERT, data_insert)
     finally:
         connection.close()
 
