@@ -33,12 +33,4 @@ class SearchEngine(object):
         return result_search
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('word')
-    parser.add_argument('connect_path')
-    args = parser.parse_args()
-    try:
-        results = SearchEngine(args.connect_path).search(args.word)
-        search_cli.Search(args.connect_path).print_output(args.word, results)
-    except IOError as e:
-        print 'File or path not found: %s' % e
+    pass

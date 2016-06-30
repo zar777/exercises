@@ -42,10 +42,15 @@ class Search(cmd.Cmd):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('-word', nargs='?', default="")
     parser.add_argument('connect_path')
+    parser.add_argument('-cli', nargs='?', default=False)
     args = parser.parse_args()
     try:
-
-        Search(args.connect_path).cmdloop()
+        if args.cli:
+            Search(args.connect_path).cmdloop()
+        else:
+            results = search_engine.SearchEngine(args.connect_path).search(args.word)
+            Search(args.connect_path).print_output(args.word, results)
     except IOError as e:
         print 'File or path not found: %s' % e
