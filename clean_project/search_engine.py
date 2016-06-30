@@ -1,7 +1,5 @@
-import argparse
 from index import load_config_file
 import psycopg2
-import search_cli
 
 
 class SearchEngine(object):
@@ -27,6 +25,3 @@ class SearchEngine(object):
         finally:
             connection.close()
         return result_search
-
-if __name__ == '__main__':
-    pass

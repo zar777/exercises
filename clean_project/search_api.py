@@ -1,5 +1,6 @@
 """
 Search a word in a file and return all the occurrences specified the line numbers
+Example of usage --> http://localhost:5000/search/bush where bush is a word for searching
 """
 import argparse
 from collections import defaultdict
@@ -28,18 +29,18 @@ def search_operation(search_word):
     save_result = defaultdict(lambda: defaultdict(list))
     result_search = app.config['search'].search(search_word)
     if result_search:
-            for result_tuple in result_search:
-                save_result[result_tuple[0]][result_tuple[1]] = result_tuple[2]
+        for result_tuple in result_search:
+            save_result[result_tuple[0]][result_tuple[1]] = result_tuple[2]
     return flask.jsonify({'search_response': save_result})
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('connect_path')
-    parser.add_argument('-debug', nargs='?', default=False)
+    parser.add_argument('--db_config', required=True, help='Path of file used for database connection')
+    parser.add_argument('--debug', default=False, help='Boolean used to enable debug mode')
     args = parser.parse_args()
     try:
-        search_obj = search_engine.SearchEngine(args.connect_path)
+        search_obj = search_engine.SearchEngine(args.db_config)
         config_app(search_obj)
         app.run(debug=args.debug)
     except IOError as e:
