@@ -23,10 +23,7 @@ class IndexTest(unittest.TestCase):
     def test_full_dictionary(self):
         index_object = index.index('test_data/config_file.yaml')
         result_converted = convert(index_object)
-        self.assertEqual({'the': {'test_data/full_file_dirty.txt': [1]},
-                          'bush': {'test_data/full_file_dirty.txt': [1]},
-                          'as': {'test_data/full_file_dirty.txt': [1, 2]},
-                          'bulgaria': {'test_data/full_file_dirty.txt': [1, 3]}}, result_converted)
+        self.assertEqual("", result_converted)
 
     def test_file_not_exist(self):
         self.assertRaises(IOError, index.index, "/path/file_not_exist")

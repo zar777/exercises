@@ -16,7 +16,11 @@ class SearchEngine(object):
         database = load_config_file(self.connect_path).get('database')
         user = load_config_file(self.connect_path).get('user')
         password = load_config_file(self.connect_path).get('password')
-        connection = psycopg2.connect(database=database, user=user, password=password)
+        port = load_config_file(self.connect_path).get('port')
+        host = load_config_file(self.connect_path).get('host')
+        sslmode = load_config_file(self.connect_path).get('sslmode')
+        connection = psycopg2.connect(host=host, port=port, sslmode=sslmode,
+                                      database=database, user=user, password=password)
         try:
             with connection:
                 with connection.cursor() as cursor:
