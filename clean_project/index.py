@@ -65,6 +65,7 @@ def build_index(index_words, connect_path):
     connection = psycopg2.connect(database=db_keys.get('database'), user=db_keys.get('user'),
                                   password=db_keys.get('password'), host=db_keys.get('host'),
                                   port=db_keys.get('port'), sslmode=db_keys.get('sslmode'))
+    count = 0
     try:
         with connection:
             with connection.cursor() as cursor:
@@ -78,6 +79,8 @@ def build_index(index_words, connect_path):
                         else:
                             data_insert = (word, file_path, index_words[word].get(file_path))
                             cursor.execute(query_insert, data_insert)
+                        count += 1
+                        print count
     finally:
         connection.close()
 
