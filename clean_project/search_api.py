@@ -42,6 +42,6 @@ if __name__ == '__main__':
     try:
         search_obj = search_engine.SearchEngine(args.db_config)
         config_app(search_obj)
-        app.run(debug=args.debug)
+        app.run(debug=args, host='0.0.0.0')
     except IOError as e:
         print 'File or path not found: %s' % e
