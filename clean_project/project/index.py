@@ -2,14 +2,15 @@
 Create a JSON file used to indexing all words in a config_file.yaml
 """
 import argparse
-import clean_file
 import contextlib
+import urllib
+from ConfigParser import SafeConfigParser
+from collections import defaultdict
+
 import psycopg2
 import yaml
-import urllib
 
-from collections import defaultdict
-from ConfigParser import SafeConfigParser
+import clean_file
 
 # Update index table only if word and file match. Else do nothing
 query_update = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"

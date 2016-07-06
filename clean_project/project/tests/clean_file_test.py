@@ -2,7 +2,7 @@
 import tempfile
 import unittest
 
-from clean_file import clean_up, sanitize
+from clean_project.project.clean_file import clean_up, sanitize
 
 
 class CleanFileTest(unittest.TestCase):

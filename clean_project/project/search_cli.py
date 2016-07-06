@@ -3,6 +3,7 @@ SearchCli a word in a file and return all the occurrence specified the line numb
 """
 import argparse
 import cmd
+
 import search_engine
 
 BOLD = '\033[1m'
@@ -24,7 +25,7 @@ def print_output(search_word, results):
         print "No matches"
 
 
-class SearchCli(cmd.Cmd):
+class SearchCli(cmd.yamlCmd):
 
     def __init__(self, engine):
         cmd.Cmd.__init__(self)

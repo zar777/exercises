@@ -1,7 +1,9 @@
 import collections
-import index
-import psycopg2
 import unittest
+
+import psycopg2
+
+import clean_project.project.index
 
 
 def convert(data):
@@ -18,20 +20,20 @@ def convert(data):
 class IndexTest(unittest.TestCase):
 
     def test_empty_yaml_file(self):
-        self.assertRaises(ValueError, index.index, 'test_data/config_empty_file.yaml')
+        self.assertRaises(ValueError, clean_project.project.index.index, 'test_data/config_empty_file.yaml')
 
     def test_full_dictionary(self):
-        index_object = index.index('test_data/config_file.yaml')
+        index_object = clean_project.project.index.index('test_data/config_file.yaml')
         result_converted = convert(index_object)
         self.assertEqual("", result_converted)
 
     def test_file_not_exist(self):
-        self.assertRaises(IOError, index.index, "/path/file_not_exist")
+        self.assertRaises(IOError, clean_project.project.index.index, "/path/file_not_exist")
 
     def test_index_database(self):
-        index_object = index.index('test_data/config_file.yaml')
-        index.build_index(index_object, 'test_data/config.cfg')
-        db_keys = index.load_config_file('test_data/config.cfg')
+        index_object = clean_project.project.index.index('test_data/config_file.yaml')
+        clean_project.project.index.build_index(index_object, 'test_data/config.cfg')
+        db_keys = clean_project.project.index.load_config_file('test_data/config.cfg')
         connection = psycopg2.connect(database=db_keys.get('database'),
                                       user=db_keys.get('user'),
                                       password=db_keys.get('password'))

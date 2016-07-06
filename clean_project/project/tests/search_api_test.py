@@ -1,15 +1,15 @@
 import json
-import search_api
-import search_engine
 import unittest
 
+import clean_project.project.search_api
+import clean_project.project.search_engine
 from index_test import convert
 
 
 class SearchApiTest(unittest.TestCase):
     def setUp(self):
-        search_obj = search_engine.SearchEngine('test_data/config.cfg')
-        self.tester = search_api.config_app(search_obj).test_client(self)
+        search_obj = clean_project.project.search_engine.SearchEngine('test_data/config.cfg')
+        self.tester = clean_project.project.search_api.config_app(search_obj).test_client(self)
 
     def test_match(self):
         response = self.tester.get('/search/bush', content_type='application/json')

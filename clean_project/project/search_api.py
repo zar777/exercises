@@ -4,7 +4,9 @@ Example of usage --> http://localhost:5000/search/bush where bush is a word for 
 """
 import argparse
 from collections import defaultdict
+
 import flask
+
 import search_engine
 
 BOLD = '\033[1m'
