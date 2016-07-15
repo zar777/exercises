@@ -25,7 +25,7 @@ def print_output(search_word, results):
         print "No matches"
 
 
-class SearchCli(cmd.yamlCmd):
+class SearchCli(cmd.Cmd):
 
     def __init__(self, engine):
         cmd.Cmd.__init__(self)
