@@ -1,0 +1,2 @@
+files_path:
+         - file: 'test_data/full_file_dirty.txt'
