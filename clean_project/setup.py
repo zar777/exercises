@@ -12,7 +12,7 @@ setup(
     author_email="gianluca.parente7@gmail.com",
 
     # Packages
-    packages=["project"],
+    packages=["project", "project/config"],
 
     # Include additional files into the package
     include_package_data=True,

@@ -61,7 +61,7 @@ class CleanFileTest(unittest.TestCase):
 
     def test_all_punctuation_in_file(self):
         with tempfile.NamedTemporaryFile() as dst_file:
-            clean_up("test_data/punctuation.txt", dst_file.name)
+            clean_up("data/punctuation.txt", dst_file.name)
             output_file = dst_file.read()
             self.assertEqual("   ", output_file)
 
