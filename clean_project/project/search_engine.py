@@ -34,6 +34,8 @@ class SearchEngine(object):
                 with connection.cursor() as cursor:
                     cursor.execute("select * from index where word in %s;" % (words,))
                     result_search = cursor.fetchall()
+            # In the section below the data structure is a dictionary in which the key is the file name and the values
+            # is a list made up: 1) a words list 2) an occurrences list of the given words
             if count_words > 1:
                 i = 0
                 j = 1
@@ -54,6 +56,7 @@ class SearchEngine(object):
                             j += 1
                     i += 1
                     j = i+1
+                # In the section below it's rebuilt the old data structure used to the differents kind of searching
                 result_search = []
                 for key in result:
                     if len(result.get(key)[0]) == count_words:
