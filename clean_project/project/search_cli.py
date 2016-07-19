@@ -17,7 +17,7 @@ def print_output(search_word, results):
     :param results: list of tuples(filename, occurrence in a given file)
     """
     if results:
-        print "The word {bold} {word} {end} is contained in the following file/lines:" \
+        print "{bold} {word} {end} is contained in the following file/lines:" \
             .format(bold=BOLD, word=search_word, end=END)
         for word, filename, occurrence in results:
             print "--> %s: %s" % (filename, str(occurrence).strip("[]"))
