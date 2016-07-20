@@ -7,19 +7,19 @@ import clean_project.project.search_engine
 class SearchTest(unittest.TestCase):
 
     def test_no_match(self):
-            clean_project.project.index.index('test_data/config_file.yaml')
-            self.assertEqual([], clean_project.project.search_engine.SearchEngine('test_data/config.cfg').search("wrongword"))
+            clean_project.project.index.index('data/config_file.yaml')
+            self.assertEqual([], clean_project.project.search_engine.SearchEngine('data/config.cfg').search("wrongword"))
 
     def test_match(self):
-            clean_project.project.index.index('test_data/config_file.yaml')
-            self.assertEqual([('bulgaria', 'try/try.txt', [22, 84, 99]),
-                              ('bulgaria', 'test_data/full_file_dirty.txt', [1, 3])],
-                             clean_project.project.search_engine.SearchEngine('test_data/config.cfg').search("bulgaria"))
+            clean_project.project.index.index('data/config_file.yaml')
+            self.assertEqual([('bulgaria', 'test.txt', [1, 2, 4]),
+                              ('bulgaria', 'https://s3.amazonaws.com/dirtyfiles/news', [38, 38, 415])],
+                             clean_project.project.search_engine.SearchEngine('data/config.cfg').search("bulgaria"))
 
     def test_no_match_single_character(self):
-            clean_project.project.index.index('test_data/config_file.yaml')
-            self.assertEqual([], clean_project.project.search_engine.SearchEngine('test_data/config.cfg').search("a"))
+            clean_project.project.index.index('data/config_file.yaml')
+            self.assertEqual([], clean_project.project.search_engine.SearchEngine('data/config.cfg').search("a"))
 
     def test_no_match_punctuation(self):
-            clean_project.project.index.index('test_data/config_file.yaml')
-            self.assertEqual([], clean_project.project.search_engine.SearchEngine('test_data/config.cfg').search("-more_videos:!"))
+            clean_project.project.index.index('data/config_file.yaml')
+            self.assertEqual([], clean_project.project.search_engine.SearchEngine('data/config.cfg').search("-more_videos:!"))

@@ -31,6 +31,7 @@ def search_operation(search_word):
     save_result = defaultdict(lambda: defaultdict(list))
     result_search = app.config['search'].search(search_word)
     if result_search:
+        # Result_tuple is a tuple that has the following structure:(word, file_name, array line numbers)
         for result_tuple in result_search:
             save_result[result_tuple[0]][result_tuple[1]] = result_tuple[2]
     return flask.jsonify({'search_response': save_result})

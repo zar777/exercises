@@ -1,32 +1,25 @@
 from distutils.core import setup
 
 setup(
-    # Application name:
     name="clean_project",
 
-    # Version number (initial):
     version="0.1.0",
 
-    # Application author details:
     author="Gianluca Parente",
     author_email="gianluca.parente7@gmail.com",
 
-    # Packages
     packages=["project", "project/config"],
 
-    # Include additional files into the package
     include_package_data=True,
 
-    # Details
     url="",
 
-    #
-    # license="LICENSE.txt",
-    description="",
+    license="LICENSE.txt",
 
-    # long_description=open("README.txt").read(),
+    description="Useful project in which is possible to remove all punctuation in a bunch of files,"
+                " indexing and inserting them in a database table. At the end of this phases,"
+                " it's possible to do a search of a word(in the table) to know in which files and lines numbers is it",
 
-    # Dependent packages (distributions)
     install_requires=[
         "flask",
         "psycopg2",

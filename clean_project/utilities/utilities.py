@@ -17,7 +17,3 @@ def load_punctuation():
         if unicodedata.category(unichr(x)).startswith('P'):
             punctuation += (unichr(x).encode("utf-8"))
     return punctuation
-
-
-# connection to amazon instance : ssh -i ~/.ssh/AwsKey.pem ubuntu@50.112.85.84
-# connection to amazon server : psql -h indexdb.c0awqz4pgr31.us-west-2.rds.amazonaws.com -d indexdb -p 5432 -U gianluca

@@ -60,10 +60,15 @@ class IndexTest(unittest.TestCase):
                                       host=db_keys.get('host'),
                                       port=db_keys.get('port'),
                                       sslmode=db_keys.get('sslmode'))
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM index where file = 'https://s3.amazonaws.com/dirtyfiles/background.txt'"
-                       " order by 1;")
-        table_content = cursor.fetchall()
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+                    cursor.execute("SELECT * FROM index where file ="
+                                   " 'https://s3.amazonaws.com/dirtyfiles/background.txt'"
+                                   " order by 1;")
+                    table_content = cursor.fetchall()
+        finally:
+            connection.close()
         self.assertEqual([('ago', 'https://s3.amazonaws.com/dirtyfiles/background.txt', [2]),
                           ('and', 'https://s3.amazonaws.com/dirtyfiles/background.txt', [3]),
                           ('are', 'https://s3.amazonaws.com/dirtyfiles/background.txt', [3]),
