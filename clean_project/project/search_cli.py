@@ -10,15 +10,15 @@ BOLD = '\033[1m'
 END = '\033[0m'
 
 
-def print_output(search_word, results):
+def print_output(search_words, results):
     """
     Print output of search
-    :param search_word: Word given to search
+    :param search_words: Word given to search
     :param results: list of tuples(filename, occurrence in a given file)
     """
     if results:
-        print "{bold} {word} {end} is contained in the following file/lines:" \
-            .format(bold=BOLD, word=search_word, end=END)
+        print "{bold} {words} {end} is contained in the following file/lines:" \
+            .format(bold=BOLD, words=search_words, end=END)
         for word, filename, occurrence in results:
             print "--> %s: %s" % (filename, str(occurrence).strip("[]"))
     else:
@@ -31,14 +31,14 @@ class SearchCli(cmd.Cmd):
         cmd.Cmd.__init__(self)
         self.engine = engine
 
-    def do_search(self, search_word):
+    def do_search(self, search_words):
         """
         Print all the occurrence of a given word
-        :param search_word: Word given to search
+        :param search_words: Word given to search
         """
         try:
-            results = self.engine.search(search_word)
-            print_output(search_word, results)
+            results = self.engine.search(search_words)
+            print_output(search_words, results)
         except IOError as e:
             print 'File or path not found: %s' % e
 
