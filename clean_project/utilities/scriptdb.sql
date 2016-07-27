@@ -10,7 +10,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public to gianluca;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO gianluca;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON sequences TO gianluca;
 -- Create a table with a specific fields
-CREATE TABLE index(Word INTEGER, File text, Occurrence integer[]);
+CREATE TABLE index(Word VARCHAR(100), File text, Occurrences integer[]);
 -- Add primary key
 ALTER TABLE index ADD PRIMARY KEY (word,file);
 -- Create index on WORD column

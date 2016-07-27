@@ -2,13 +2,15 @@
 Create a JSON file used to indexing all words in a config_file.yaml
 """
 import argparse
-import codecs
 import clean_file
+import contextlib
+import logging
 import psycopg2
 import yaml
-
+import urllib
 from collections import defaultdict
-from ConfigParser import SafeConfigParser
+from load_config import load_config_file
+
 
 # Update index table only if word and file match. Else do nothing
 QUERY_UPDATE = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
@@ -17,15 +19,6 @@ QUERY_INSERT = ("INSERT INTO index (word, file, occurrences)"
                 "VALUES (%s, %s, %s);")
 # Select to verify if a key (word, file) exists
 QUERY_SELECT = "SELECT 1 FROM index WHERE word=%s AND file=%s"
-
-
-def load_config_file(connect_path):
-    config = SafeConfigParser()
-    config.read(connect_path)
-    list_keys = {'database': config.get('db_connection', 'database'),
-                 'user': config.get('db_connection', 'user'),
-                 'password': config.get('db_connection', 'password')}
-    return list_keys
 
 
 def index(config_path):
@@ -39,12 +32,13 @@ def index(config_path):
     if data is not None:
         index_words = defaultdict(lambda: defaultdict(list))
         for file_dirty in data['files_path']:
-            with codecs.open(file_dirty.get('file'), 'r', 'utf-8') as source_file:
+            opener = urllib.urlopen(file_dirty.get('file'))
+            with contextlib.closing(opener) as source_file:
                 # Used 1-based indexing for showing line numbers in output representation
                 for i, line in enumerate(source_file, 1):
                     cleaned_line = clean_file.sanitize(line)
                     for word in cleaned_line.split():
-                        index_words[word.lower()][source_file.name].append(i)
+                        index_words[word.lower()][source_file.url].append(i)
     else:
         raise ValueError('Empty configuration file')
     return index_words
@@ -56,9 +50,10 @@ def build_index(index_words, connect_path):
     :param index_words: Object which contains the built index
     """
     db_keys = load_config_file(connect_path)
-    connection = psycopg2.connect(database=db_keys.get('database'),
-                                  user=db_keys.get('user'),
-                                  password=db_keys.get('password'))
+    connection = psycopg2.connect(database=db_keys.get('database'), user=db_keys.get('user'),
+                                  password=db_keys.get('password'), host=db_keys.get('host'),
+                                  port=db_keys.get('port'), sslmode=db_keys.get('sslmode'))
+    count = 0
     try:
         with connection:
             with connection.cursor() as cursor:
@@ -72,6 +67,9 @@ def build_index(index_words, connect_path):
                         else:
                             data_insert = (word, file_path, index_words[word].get(file_path))
                             cursor.execute(QUERY_INSERT, data_insert)
+                        count += 1
+                        if count % 1000 == 0:
+                            logging.warning("Time elapsed %s", str(count))
     finally:
         connection.close()
 

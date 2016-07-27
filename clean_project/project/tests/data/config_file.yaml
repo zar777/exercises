@@ -1,0 +1,2 @@
+files_path:
+         - file: 'https://s3.amazonaws.com/dirtyfiles/background.txt'
