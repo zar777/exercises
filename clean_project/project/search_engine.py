@@ -1,5 +1,4 @@
 from collections import defaultdict, Counter
-
 from index import load_config_file
 import psycopg2
 
@@ -32,6 +31,35 @@ class SearchEngine(object):
                     result_search.append((search_word, key, line_numbers))
         return result_search
 
+    def temp_object_multi_words(self, result_search, count_words):
+        """
+        In the section below the data structure is a dictionary in which the key is the FILE NAME and the values
+        is a list made up: 1) a words list 2) an occurrences list of the given words
+        :param result_search:
+        :param count_words:
+        :return: 
+        """
+        i = 0
+        j = 1
+        result = defaultdict(lambda: list)
+        while i <= len(result_search) - 1:
+            while j <= len(result_search) - 1:
+                if result_search[i][1] == result_search[j][1]:
+                    if result_search[i][1] in result:
+                        if len(result.get(result_search[i][1])[0]) < count_words:
+                            result.get(result_search[i][1])[0].append(result_search[j][0])
+                            result.get(result_search[i][1])[1] += list(set(result_search[j][2]))
+                        j += 1
+                    else:
+                        result[result_search[i][1]] = [[result_search[i][0], result_search[j][0]],
+                                                       list(set(result_search[i][2])) + list(set(result_search[j][2]))]
+                        j += 1
+                else:
+                    j += 1
+            i += 1
+            j = i + 1
+        return result
+
     def search(self, search_word):
         """
         Search if a given word is in bucket of files
@@ -58,29 +86,9 @@ class SearchEngine(object):
                 with connection.cursor() as cursor:
                     cursor.execute(QUERY_SELECT, words)
                     result_search = cursor.fetchall()
-            # In the section below the data structure is a dictionary in which the key is the file name and the values
-            # is a list made up: 1) a words list 2) an occurrences list of the given words
             if count_words > 1:
-                i = 0
-                j = 1
-                result = defaultdict(lambda: list)
-                while i <= len(result_search)-1:
-                    while j <= len(result_search)-1:
-                        if result_search[i][1] == result_search[j][1]:
-                            if result_search[i][1] in result:
-                                if len(result.get(result_search[i][1])[0]) < count_words:
-                                    result.get(result_search[i][1])[0].append(result_search[j][0])
-                                    result.get(result_search[i][1])[1] += list(set(result_search[j][2]))
-                                j += 1
-                            else:
-                                result[result_search[i][1]] = [[result_search[i][0], result_search[j][0]],
-                                                               list(set(result_search[i][2]))+list(set(result_search[j][2]))]
-                                j += 1
-                        else:
-                            j += 1
-                    i += 1
-                    j = i+1
-                result_search = self.build_result_object(result, count_words, search_word)
+                temp_result = self.temp_object_multi_words(result_search, count_words)
+                result_search = self.build_result_object(temp_result, count_words, search_word)
         finally:
             connection.close()
         return result_search
