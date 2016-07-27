@@ -2,15 +2,15 @@
 Create a JSON file used to indexing all words in a config_file.yaml
 """
 import argparse
+import clean_file
 import contextlib
-import urllib
-from ConfigParser import SafeConfigParser
-from collections import defaultdict
-
+import logging
 import psycopg2
 import yaml
+import urllib
+from collections import defaultdict
+from load_config import load_config_file
 
-import clean_file
 
 # Update index table only if word and file match. Else do nothing
 QUERY_UPDATE = "UPDATE index SET occurrences=%s WHERE word=%s AND file=%s;"
@@ -19,18 +19,6 @@ QUERY_INSERT = ("INSERT INTO index (word, file, occurrences)"
                 "VALUES (%s, %s, %s);")
 # Select to verify if a key (word, file) exists
 QUERY_SELECT = "SELECT 1 FROM index WHERE word=%s AND file=%s"
-
-
-def load_config_file(connect_path):
-    config = SafeConfigParser()
-    config.read(connect_path)
-    list_keys = {'database': config.get('db_connection', 'database'),
-                 'port': config.get('db_connection', 'port'),
-                 'host': config.get('db_connection', 'host'),
-                 'sslmode': config.get('db_connection', 'sslmode'),
-                 'user': config.get('db_connection', 'user'),
-                 'password': config.get('db_connection', 'password')}
-    return list_keys
 
 
 def index(config_path):
@@ -81,7 +69,7 @@ def build_index(index_words, connect_path):
                             cursor.execute(QUERY_INSERT, data_insert)
                         count += 1
                         if count % 1000 == 0:
-                            print count
+                            logging.warning("Time elapsed %s", str(count))
     finally:
         connection.close()
 

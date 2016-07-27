@@ -1,10 +1,17 @@
-from index import load_config_file
 import psycopg2
+from load_config import load_config_file
 
 
 class SearchEngine(object):
     def __init__(self, connect_path):
         self.connect_path = connect_path
+        keys = load_config_file(self.connect_path)
+        self.database = keys['database']
+        self.user = keys['user']
+        self.password = keys['password']
+        self.port = keys['port']
+        self.host = keys['host']
+        self.sslmode = keys['sslmode']
 
     def search(self, search_word):
         """
@@ -13,14 +20,9 @@ class SearchEngine(object):
         :return: List of tuples composed by the given word, file and all the occurrences found
         """
         result_search = []
-        database = load_config_file(self.connect_path).get('database')
-        user = load_config_file(self.connect_path).get('user')
-        password = load_config_file(self.connect_path).get('password')
-        port = load_config_file(self.connect_path).get('port')
-        host = load_config_file(self.connect_path).get('host')
-        sslmode = load_config_file(self.connect_path).get('sslmode')
-        connection = psycopg2.connect(host=host, port=port, sslmode=sslmode,
-                                      database=database, user=user, password=password)
+
+        connection = psycopg2.connect(host=self.host, port=self.port, sslmode=self.sslmode,
+                                      database=self.database, user=self.user, password=self.password)
         try:
             with connection:
                 with connection.cursor() as cursor:
