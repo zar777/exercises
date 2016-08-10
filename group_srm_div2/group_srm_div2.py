@@ -1,18 +1,14 @@
+from collections import Counter
+
+
 class GroupSRMDiv2(object):
     def FindGroups(self, t):
-        occurrences = {}
-        count = 1
-        for member in t:
-            if member not in occurrences:
-                occurrences[member] = count
-            else:
-                occurrences[member] += 1
+        occurrences = Counter(t)
         groups = 0
-        for el in occurrences:
-            if occurrences[el] % el != 0:
+        for size, n in occurrences.iteritems():
+            if n % size != 0:
                 return -1
-            else:
-                groups += occurrences[el] / el
+            groups += n / size
         return groups
 
 
