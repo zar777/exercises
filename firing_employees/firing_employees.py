@@ -20,8 +20,8 @@ class FiringEmployees(object):
 
 
 if __name__ == '__main__':
-    m = [0,0,0]
-    s = [1,2,3]
-    p = [3,2,1]
+    m = [0,1,2,1,2,3,4,2,3]
+    s = [5,3,6,8,4,2,4,6,7]
+    p = [2,5,7,8,5,3,5,7,9]
     firing = FiringEmployees()
     print firing.fire(m,s,p)
