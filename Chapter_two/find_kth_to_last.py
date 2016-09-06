@@ -15,11 +15,10 @@ class FindLast(LinkedList):
             count += 1
             current = current.next
         nth = count - nth
-        count = 0
         current = self.head
         if nth >= 0:
-            while count != nth:
-                count += 1
+            while nth != 0:
+                nth -= 1
                 current = current.next
         else:
             return None

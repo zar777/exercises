@@ -26,7 +26,7 @@ class SortStack(object):
 
         while self.is_empty() is False:
             first = self.pop()
-                while sort.is_empty() is False and sort.peek() > first:
+            while sort.is_empty() is False and sort.peek() > first:
                 sort.push(first)
             else:
                 pass
@@ -38,3 +38,4 @@ if __name__ == '__main__':
     a.insert(0, 1)
     a.insert(0, 2)
     a.append(3)
+    print stack.sort_ascending()

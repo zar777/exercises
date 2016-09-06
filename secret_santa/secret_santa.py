@@ -59,4 +59,4 @@ def secret_santa_2(elements):
 
 if __name__ == '__main__':
     elements = ['a', 'b', 'c', 'd']
-    print secret_santa_2(elements)
+    print secret_santa(elements)

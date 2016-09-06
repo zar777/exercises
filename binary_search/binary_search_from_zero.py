@@ -17,8 +17,6 @@ class BinarySearchFromZero(object):
             new_last = last*2
             if new_last < len(self.array):
                 return self.binary_search_from_zero_algorithm(last, new_last, key)
-            # elif new_last > len(self.array):
-            #     return self.binary_search_from_zero_algorithm(last, len(self.array)-1, key)
             else:
                 return self.binary_search_from_zero_algorithm(mid, len(self.array), key)
         else:
@@ -35,5 +33,5 @@ if __name__ == '__main__':
     binary = BinarySearchFromZero(array)
     print binary.array
     print len(binary.array)
-    ciao = binary.binary_search_from_zero_algorithm(0, 1, 4)
+    ciao = binary.binary_search_from_zero_algorithm(0, 1, 20)
     print ciao

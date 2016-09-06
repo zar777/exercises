@@ -17,10 +17,9 @@ class KthSmallestElement(QuickSort):
             return self.find(pivot_index + 1, right, k)
 
 
-
 if __name__ == '__main__':
     array = [15, 53, 51, 10, 51, 33, 60, 22]
     k = 4
     new_try = KthSmallestElement(array)
-    print new_try.find(0, len(new_try.array) - 1, 4)
+    print new_try.find(0, len(new_try.array) - 1, 3)
     print new_try.array

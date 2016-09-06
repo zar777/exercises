@@ -6,7 +6,6 @@ class ThreeStacks(object):
     def __init__(self):
         self.array = ["Divisor_one", "Divisor_two"]
 
-
     def push_first_stack(self, element):
         "push element in the first stack"
         self.array.insert(0, element)

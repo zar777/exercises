@@ -13,8 +13,6 @@ class RemoveDuplicates(LinkedList):
         super(RemoveDuplicates, self).__init__()
 
     def remove(self):
-        dictionary = {}
-        position = 0
         current = self.head
         buffer = []
 
@@ -36,14 +34,12 @@ class RemoveDuplicates(LinkedList):
         while current is not None:
             dict_element = dictionary.get(current.item)
             if dict_element > 1:
-                if actual_position != 0 and current != self.head:
+                if current != self.head:
                     dictionary[current.item] = dict_element-1
                     previous_position.next = current.next
                 else:
                     dictionary[current.item] = dict_element-1
-                    previous_position = current
                     self.head = current.next
-            previous_position = current
             current = current.next
             actual_position += 1
 
@@ -53,7 +49,7 @@ if __name__ == '__main__':
 
     duplicates = RemoveDuplicates()
     print duplicates.append(30)
-    print duplicates.append(25)
+    print duplicates.append(30)
     print duplicates.append(25)
     print duplicates.append(25)
     print duplicates.append(25)
