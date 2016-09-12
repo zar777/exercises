@@ -72,3 +72,14 @@ class Graph(object):
                     marked[adj] = True
                     edge_to[adj] = queue_element
         return edge_to
+
+    def find_cycles(self, vertex):
+        self.marked[vertex] = True
+        for adj in self.adj_list[vertex]:
+            if self.marked[adj] is not True:
+                # qui non ho capito se metto prima il valore nell'edge_to cosa cambia
+                self.dfs(adj)
+                self.edge_to[adj] = vertex
+            elif self.marked[adj] is True and self.edge_to[adj] != vertex:
+                return True
+        return False
